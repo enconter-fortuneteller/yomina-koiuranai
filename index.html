@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本格電話占い | 人に言えない恋の悩みを導く</title>
+    <meta name="description" content="「復縁、略奪、不倫……絶対に叶えたい恋」に悩むあなたへ。誰にもバレず、自宅から今すぐ相談できる本格電話占い。">
+    
+    <!-- Google Fonts: 明朝体（見出し用）とゴシック体（本文用） -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Noto Serif JP"', 'serif'],
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                    },
+                    colors: {
+                        midnight: {
+                            base: '#080d1a',   // 最も深いネイビー（背景）
+                            surface: '#121a2f', // 浮き出た要素（カード等）
+                            light: '#1e293b',   // ボーダーやホバー用
+                        },
+                        gold: {
+                            light: '#fdf0ed',   // ほんのり桜色がかった白（ハイライト）
+                            DEFAULT: '#e3b5a4', // 優しいピンクゴールド（アイコンに合わせた色）
+                            dark: '#b5826f',    // 落ち着いたアンティークピンク（シャドウ用）
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ベース設定 */
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: #f8fafc; /* テキスト基本色：明るいグレー/白 */
+            background-color: #080d1a;
+            /* 神秘的な夜空の光を表現したグラデーション */
+            background-image: radial-gradient(circle at top right, rgba(227, 181, 164, 0.1) 0%, transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(30, 41, 59, 0.8) 0%, transparent 50%);
+            background-attachment: fixed;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 見出しは明朝体にする */
+        h1, h2, h3, h4, h5, h6, .font-serif {
+            font-family: 'Noto Serif JP', serif;
+            letter-spacing: 0.05em;
+        }
+
+        /* スクロール出現アニメーション用クラス */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.25, 0.8, 0.25, 1), transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* ダークテーマのグラスモーフィズム（シャープな角丸をTailwind側で指定） */
+        .glass-card {
+            background: rgba(18, 26, 47, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(227, 181, 164, 0.2); /* 繊細なピンクゴールドの細線 */
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ピンクゴールドのグラデーションテキスト */
+        .text-gradient {
+            background: linear-gradient(135deg, #fdf0ed 0%, #e3b5a4 50%, #b5826f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* CTAボタン：ピンクゴールドベースで優しさと高級感を演出 */
+        .btn-cta {
+            background: linear-gradient(135deg, #e3b5a4 0%, #cf9885 100%);
+            color: #080d1a; /* 文字色は背景のネイビー */
+            border: 1px solid #fdf0ed;
+            box-shadow: 0 4px 20px rgba(227, 181, 164, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-cta::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(253, 240, 237, 0.6) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-20deg);
+            transition: all 0.7s ease;
+        }
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(227, 181, 164, 0.5);
+            border-color: #ffffff;
+            color: #000000;
+        }
+        .btn-cta:hover::after {
+            left: 150%;
+        }
+
+        /* 光のぼかし装飾（UIパーツ用） */
+        .glow-effect {
+            position: absolute;
+            background: radial-gradient(circle, rgba(227,181,164,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <header class="relative min-h-screen flex items-center justify-center pt-16 pb-24 px-4 overflow-hidden">
+        <div class="absolute inset-0 z-[-1]">
+            <!-- 月と夜空の神秘的な画像 -->
+            <img src="https://images.unsplash.com/photo-1532767153582-b1a0e5145009?q=80&w=1600&auto=format&fit=crop" alt="夜空と月" class="w-full h-full object-cover opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-b from-midnight-base/60 via-midnight-base/80 to-midnight-base"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto w-full text-center reveal active glass-card p-8 md:p-12 rounded-xl relative">
+            <div class="glow-effect w-64 h-64 top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+            
+            <p class="text-sm md:text-base tracking-widest text-gold mb-4 font-medium">人に言えない恋、ひとりで抱え込んでいませんか？</p>
+            <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight md:leading-snug mb-8">
+                「復縁、略奪、不倫……<br class="hidden md:block">
+                <span class="text-gradient">絶対に叶えたい恋</span>」に悩むあなたへ。
+            </h1>
+            <p class="text-base md:text-lg text-gray-300 mb-10 max-w-2xl mx-auto">
+                誰にもバレず、自宅から今すぐ相談できる本格電話占いで、<br class="hidden md:block">あなたの運命を確かな未来へ導きます。
+            </p>
+            <div class="animate-float">
+                <a href="https://t.afi-b.com/visit.php?a=J8084z-F270706Y&p=D974192F" target="_blank" rel="noopener noreferrer" class="btn-cta inline-flex flex-col items-center justify-center px-8 py-5 rounded-lg w-full md:w-auto text-center group">
+                    <span class="text-xs md:text-sm font-bold mb-1 tracking-wider opacity-90">＼ 初回10分無料 ／</span>
+                    <span class="text-lg md:text-xl font-bold tracking-wide font-serif">無料登録してお試し相談してみる</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="py-24 px-4 relative">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-12 reveal">
+                <span class="text-gold text-sm block mb-2 tracking-widest font-sans">EMPATHY</span>
+                こんなお悩み、抱えていませんか？
+            </h2>
+            <div class="space-y-6">
+                <div class="glass-card p-6 rounded-lg reveal delay-100 flex items-start gap-4">
+                    <span class="text-gold text-3xl leading-none font-serif">“</span>
+                    <p class="text-lg text-gray-200">どうしても元カレとやり直したい。ブロックされていて八方塞がりだ…</p>
+                </div>
+                <div class="glass-card p-6 rounded-lg reveal delay-200 flex items-start gap-4">
+                    <span class="text-gold text-3xl leading-none font-serif">“</span>
+                    <p class="text-lg text-gray-200">彼には奥さんがいるけれど、諦めきれない。私を選んでほしい…</p>
+                </div>
+                <div class="glass-card p-6 rounded-lg reveal delay-300 flex items-start gap-4">
+                    <span class="text-gold text-3xl leading-none font-serif">“</span>
+                    <p class="text-lg text-gray-200">誰にも相談できず、毎日が苦しくて涙が止まらない…</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-4 relative">
+        <div class="absolute inset-0 z-[-1]">
+            <!-- キャンドルの光 -->
+            <img src="https://images.unsplash.com/photo-1602928321679-560bb453f190?q=80&w=1600&auto=format&fit=crop" alt="キャンドル" class="w-full h-full object-cover opacity-10">
+            <div class="absolute inset-0 bg-midnight-base/90"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 reveal">
+                <span class="text-gold text-sm block mb-2 tracking-widest font-sans">REASON</span>
+                複雑愛の解決に「電話占い」が選ばれる理由
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-card p-8 rounded-lg border-t-2 border-t-gold reveal delay-100">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-gold-light">
+                        <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        SNS鑑定の落とし穴
+                    </h3>
+                    <p class="text-gray-300">手軽な反面、実はAIによる定型文の返信も多く、「本当に視てもらえているの？」という不安が残ります。昨今はAI占いの副業ブームもあり、SNS上で本物の占い師に出会うのは極めて困難です。</p>
+                </div>
+                <div class="glass-card p-8 rounded-lg border-t-2 border-t-gold reveal delay-200">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-gold-light">
+                        <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        対面鑑定のハードル
+                    </h3>
+                    <p class="text-gray-300">占い館へ足を運ぶ手間や、万が一知り合いに見られる不安があります。深く悩んでいる時ほど、外出すること自体が重労働になりがちです。</p>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 md:p-12 rounded-xl reveal relative overflow-hidden">
+                <div class="glow-effect w-96 h-96 top-0 right-0 -translate-y-1/2 translate-x-1/3"></div>
+                <h3 class="text-2xl font-bold mb-6 text-center text-gradient">だからこそ、本格「電話占い」です</h3>
+                <p class="text-lg leading-relaxed mb-6 text-center text-gray-200">
+                    自宅のベッドの上から、誰の目も気にせず「今すぐ」相談可能。<br class="hidden md:block">
+                    使った分だけの「分単位課金」だからお財布にも安心です。
+                </p>
+                <div class="bg-midnight-surface/80 border border-gold/10 p-6 rounded-lg mt-8">
+                    <p class="text-center font-bold text-lg text-white">
+                        さらに、その場でリアルタイムに言葉を交わす電話占いは、<br class="hidden md:block">
+                        <span class="text-gold border-b border-gold/50 pb-1 inline-block mt-2">誤魔化しがきかない「本物」である絶対の証拠。</span>
+                    </p>
+                    <p class="text-center mt-4 text-gray-300 text-sm md:text-base">あなたの生の声を直接聴くからこそ、深く精度の高い、魂に触れる鑑定が可能になります。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-4 relative">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 reveal">
+                <span class="text-gold text-sm block mb-2 tracking-widest font-sans">STRENGTHS</span>
+                本占いが選ばれる3つの理由
+            </h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-xl text-center reveal delay-100 flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full bg-midnight-base border border-gold/30 flex items-center justify-center text-gold text-2xl font-bold font-serif mb-6 shadow-[0_0_15px_rgba(227,181,164,0.2)]">1</div>
+                    <h3 class="text-xl font-bold mb-4 text-gold-light">圧倒的的中率</h3>
+                    <p class="text-gray-300 text-left text-sm md:text-base">メディア出演多数の「本当に当たる」と口コミで話題の本物の占い師のみが在籍。厳しい審査を通過した実力派揃いです。</p>
+                </div>
+                <div class="glass-card p-8 rounded-xl text-center reveal delay-200 flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full bg-midnight-base border border-gold/30 flex items-center justify-center text-gold text-2xl font-bold font-serif mb-6 shadow-[0_0_15px_rgba(227,181,164,0.2)]">2</div>
+                    <h3 class="text-xl font-bold mb-4 text-gold-light">複雑愛の専門家</h3>
+                    <p class="text-gray-300 text-left text-sm md:text-base">復縁・略奪・不倫など、人に言えない恋の成就実績が圧倒的。どんなに困難な状況でも、否定せずあなたに寄り添います。</p>
+                </div>
+                <div class="glass-card p-8 rounded-xl text-center reveal delay-300 flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full bg-midnight-base border border-gold/30 flex items-center justify-center text-gold text-2xl font-bold font-serif mb-6 shadow-[0_0_15px_rgba(227,181,164,0.2)]">3</div>
+                    <h3 class="text-xl font-bold mb-4 text-gold-light">安心のお試し</h3>
+                    <p class="text-gray-300 text-left text-sm md:text-base">初回はたっぷり10分間無料！まずは先生との相性を確かめてから、本格的な相談に進むことができます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta-section" class="py-24 px-4 relative">
+        <div class="absolute inset-0 z-[-1]">
+            <div class="absolute inset-0 bg-midnight-surface opacity-50"></div>
+            <!-- 背景に微かな光 -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gold/5 via-transparent to-transparent"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 reveal">
+                <span class="text-gold text-sm block mb-2 tracking-widest font-sans">CHOOSE YOUR PATH</span>
+                あなたの悩みに合わせた専用窓口
+            </h2>
+            <p class="text-center text-gray-300 mb-12 reveal">専門性の高い鑑定師が、あなたの状況に合わせて待機しています。<br>どちらもご利用いただく方がほとんどです。</p>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-card p-8 md:p-10 rounded-xl text-center reveal delay-100 hover:-translate-y-2 transition-transform duration-300 border-gold/30 flex flex-col">
+                    <h3 class="text-xl md:text-2xl font-bold mb-2 text-white">片思い・復縁向け</h3>
+                    <p class="text-sm text-gold mb-6 font-medium">「途切れたご縁を再び結ぶ」</p>
+                    <p class="text-sm text-gray-300 mb-8 flex-grow text-left">音信不通、LINEブロックからの解除、冷めた気持ちを取り戻す専門の鑑定師が揃っています。<br>多数の芸能人も鑑定している占い師が在籍。占い方法は、「電話」「チャット」「メール」から選べます。</p>
+                    <a href="https://t.afi-b.com/visit.php?a=J8084z-F270706Y&p=D974192F" target="_blank" rel="noopener noreferrer" class="btn-cta inline-flex flex-col items-center justify-center px-6 py-4 rounded-lg w-full mt-auto">
+                        <span class="text-xs font-bold mb-1 opacity-90 font-sans">＼ 初回10分無料 ／</span>
+                        <span class="font-bold font-serif">無料登録して相談する</span>
+                    </a>
+                </div>
+
+                <div class="glass-card p-8 md:p-10 rounded-xl text-center reveal delay-200 hover:-translate-y-2 transition-transform duration-300 border-gold/30 flex flex-col">
+                    <h3 class="text-xl md:text-2xl font-bold mb-2 text-white">略奪・不倫向け</h3>
+                    <p class="text-sm text-gold mb-6 font-medium">「複雑な愛を勝ち取る」</p>
+                    <p class="text-sm text-gray-300 mb-8 flex-grow text-left">誰にも言えない関係、奥さんとの離婚、あなただけを愛してもらうための専門鑑定。<br>人気テレビ番組「マツコの知らない世界」や「水曜日のダウンタウン」に出演した実力派をはじめ、TVやメディアで活躍中の占い師が多数在籍中です。</p>
+                    <a href="https://t.afi-b.com/visit.php?a=18791i-Z297875W&p=D974192F" target="_blank" rel="noopener noreferrer" class="btn-cta inline-flex flex-col items-center justify-center px-6 py-4 rounded-lg w-full mt-auto">
+                        <span class="text-xs font-bold mb-1 opacity-90 font-sans">＼ 3,000円分の占いが無料 ／</span>
+                        <span class="font-bold font-serif">無料登録して相談する</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-4 relative">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 reveal">
+                <span class="text-gold text-sm block mb-2 tracking-widest font-sans">VOICES</span>
+                奇跡を起こしたご利用者様の声
+            </h2>
+
+            <div class="space-y-8">
+                <div class="glass-card p-8 rounded-xl flex flex-col md:flex-row gap-6 items-center md:items-start reveal delay-100">
+                    <div class="p-1 rounded-full bg-gradient-to-br from-gold to-gold-dark shrink-0">
+                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=150&auto=format&fit=crop" alt="スマホを持つ手元" class="w-20 h-20 rounded-full object-cover border-4 border-midnight-base">
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-xs font-bold text-midnight-base bg-gold px-3 py-1 rounded-full">復縁・ブロック解除</span>
+                            <span class="text-sm text-gray-400">20代 女性</span>
+                        </div>
+                        <h3 class="text-lg font-bold mb-3 text-gold-light">「絶望的な状況からLINEのブロックが解除されました！」</h3>
+                        <p class="text-gray-300 text-sm md:text-base">別れてからLINEもブロックされ、完全に終わったと思っていました。でも先生に相談して教えられた時期に待っていたら、本当に突然ブロックが解除されて彼から連絡が！今では以前より仲良く付き合えています。先生のお力は本当に凄いです。</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-xl flex flex-col md:flex-row gap-6 items-center md:items-start reveal delay-200">
+                    <div class="p-1 rounded-full bg-gradient-to-br from-gold to-gold-dark shrink-0">
+                        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=150&auto=format&fit=crop" alt="手をつなぐ二人" class="w-20 h-20 rounded-full object-cover border-4 border-midnight-base">
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-xs font-bold text-midnight-base bg-gold px-3 py-1 rounded-full">不倫・略奪</span>
+                            <span class="text-sm text-gray-400">30代 女性</span>
+                        </div>
+                        <h3 class="text-lg font-bold mb-3 text-gold-light">「彼が奥さんと別れて、私を選んでくれました」</h3>
+                        <p class="text-gray-300 text-sm md:text-base">先の見えない関係に毎日泣いてばかりで、精神的にも限界でした。先生は私の痛みを否定せず受け止めてくれ、彼の本心と具体的な行動のタイミングを透視してくれました。アドバイス通りに動いた結果、彼がついに決断してくれました。感謝してもしきれません。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-4 relative">
+        <div class="absolute inset-0 z-[-1] bg-midnight-surface/30"></div>
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 reveal">
+                <span class="text-gold text-sm block mb-2 tracking-widest font-sans">FAQ</span>
+                よくあるご質問
+            </h2>
+
+            <div class="space-y-4">
+                <div class="glass-card p-6 md:p-8 rounded-lg reveal border-l-4 border-l-gold">
+                    <h3 class="font-bold flex gap-4 text-lg text-white">
+                        <span class="text-gold font-serif text-xl">Q.</span>
+                        本当に無料で占えますか？
+                    </h3>
+                    <div class="mt-4 pl-9 flex gap-4 text-gray-300">
+                        <span class="text-gray-500 font-bold font-serif text-xl">A.</span>
+                        <p class="text-sm md:text-base">はい、初回登録特典として無料鑑定ポイントが付与されます。ポイントの範囲内で通話を終了すれば、料金は一切発生いたしません。</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 md:p-8 rounded-lg reveal delay-100 border-l-4 border-l-gold">
+                    <h3 class="font-bold flex gap-4 text-lg text-white">
+                        <span class="text-gold font-serif text-xl">Q.</span>
+                        通話料はかかりますか？
+                    </h3>
+                    <div class="mt-4 pl-9 flex gap-4 text-gray-300">
+                        <span class="text-gray-500 font-bold font-serif text-xl">A.</span>
+                        <p class="text-sm md:text-base">通話料は無料です。鑑定料金のみでご利用いただけますので、通話時間を気にせず安心してご相談ください。</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 md:p-8 rounded-lg reveal delay-200 border-l-4 border-l-gold">
+                    <h3 class="font-bold flex gap-4 text-lg text-white">
+                        <span class="text-gold font-serif text-xl">Q.</span>
+                        家族や知人にバレませんか？
+                    </h3>
+                    <div class="mt-4 pl-9 flex gap-4 text-gray-300">
+                        <span class="text-gray-500 font-bold font-serif text-xl">A.</span>
+                        <p class="text-sm md:text-base">ご安心ください。ご登録いただいた個人情報や相談内容が外部に漏れることは絶対にありません。また、ご自宅に郵便物が届くようなこともございません。</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 md:p-8 rounded-lg reveal delay-300 border-l-4 border-l-gold">
+                    <h3 class="font-bold flex gap-4 text-lg text-white">
+                        <span class="text-gold font-serif text-xl">Q.</span>
+                        途中で電話を切ってもいいですか？
+                    </h3>
+                    <div class="mt-4 pl-9 flex gap-4 text-gray-300">
+                        <span class="text-gray-500 font-bold font-serif text-xl">A.</span>
+                        <p class="text-sm md:text-base">はい、お客様のタイミングでいつでも電話をお切りいただけます。引き伸ばし行為などは一切行っておりませんので、安心してお電話ください。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 px-4 relative overflow-hidden border-t border-gold/10">
+        <div class="absolute inset-0 z-[-1]">
+            <!-- 星空の画像 -->
+            <img src="https://images.unsplash.com/photo-1465101162946-4377e57745c3?q=80&w=1600&auto=format&fit=crop" alt="星空" class="w-full h-full object-cover opacity-30">
+            <div class="absolute inset-0 bg-gradient-to-t from-midnight-base via-midnight-base/80 to-transparent"></div>
+        </div>
+
+        <div class="max-w-3xl mx-auto text-center reveal">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gradient leading-tight">あなたのその恋、<br class="block md:hidden">まだ諦める必要はありません。</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-12 leading-relaxed font-sans">
+                ひとりで悩む夜は、今日で終わりにしませんか。<br>
+                今すぐプロの力を借りて、望む未来を引き寄せましょう。
+            </p>
+            <div class="animate-float">
+                <a href="https://t.afi-b.com/visit.php?a=J8084z-F270706Y&p=D974192F" target="_blank" rel="noopener noreferrer" class="btn-cta inline-flex flex-col items-center justify-center px-8 py-5 rounded-lg w-full md:w-auto shadow-2xl group">
+                    <span class="text-xs md:text-sm font-bold mb-1 tracking-wider opacity-90 font-sans">＼ 初回10分無料 ／</span>
+                    <span class="text-lg md:text-xl font-bold tracking-wide font-serif">無料登録してお試し相談してみる</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center text-gray-500 bg-midnight-base border-t border-white/5 flex flex-col items-center justify-center">
+        <p class="text-xs mb-3 font-sans opacity-70">※本サイトは一部プロモーションを含みます。</p>
+        <p class="text-sm font-sans">&copy; 2024 本格電話占い. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100;
+
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll(); // 初期表示時にもチェック
+        });
+    </script>
+</body>
+</html>
