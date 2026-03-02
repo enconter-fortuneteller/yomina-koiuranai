@@ -137,6 +137,52 @@
             pointer-events: none;
             z-index: -1;
         }
+
+        /* スクロールダウンアニメーション（長く伸びる線） */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            padding-bottom: 1.5rem;
+        }
+        .scroll-indicator-text {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: rgba(227, 181, 164, 0.8);
+            margin-bottom: 12px;
+            font-weight: 600;
+            margin-left: 0.2em; /* 字間による中央ズレの補正 */
+        }
+        .scroll-line-container {
+            width: 1px;
+            height: 70px;
+            background-color: rgba(227, 181, 164, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .scroll-line-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, rgba(227, 181, 164, 0), rgba(227, 181, 164, 1));
+            animation: scrollLineDrop 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollLineDrop {
+            0% { top: -40px; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { top: 70px; opacity: 0; }
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -156,21 +202,21 @@
                 「復縁、略奪、不倫……<br class="hidden md:block">
                 <span class="text-gradient">絶対に叶えたい恋</span>」に悩むあなたへ。
             </h1>
-            <p class="text-base md:text-lg text-gray-300 mb-10 max-w-2xl mx-auto">
+            <p class="text-base md:text-lg text-gray-300 max-w-2xl mx-auto">
                 誰にもバレず、自宅から今すぐ相談できる本格電話占いで、<br class="hidden md:block">あなたの運命を確かな未来へ導きます。
             </p>
-            <div class="animate-float">
-                <a href="https://t.afi-b.com/visit.php?a=J8084z-F270706Y&p=D974192F" target="_blank" rel="noopener noreferrer" class="btn-cta inline-flex flex-col items-center justify-center px-8 py-5 rounded-lg w-full md:w-auto text-center group">
-                    <span class="text-xs md:text-sm font-bold mb-1 tracking-wider opacity-90">＼ 初回10分無料 ／</span>
-                    <span class="text-lg md:text-xl font-bold tracking-wide font-serif">無料登録してお試し相談してみる</span>
-                </a>
-            </div>
+        </div>
+
+        <!-- スクロールダウンインジケーター -->
+        <div class="scroll-indicator hover:opacity-70 transition-opacity" onclick="document.getElementById('empathy-section').scrollIntoView({behavior: 'smooth'})">
+            <span class="scroll-indicator-text font-sans">SCROLL</span>
+            <div class="scroll-line-container"></div>
         </div>
     </header>
 
-    <section class="py-24 px-4 relative">
+    <section id="empathy-section" class="py-16 md:py-20 px-4 relative">
         <div class="max-w-3xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-12 reveal">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-10 md:mb-12 reveal">
                 <span class="text-gold text-sm block mb-2 tracking-widest font-sans">EMPATHY</span>
                 こんなお悩み、抱えていませんか？
             </h2>
@@ -191,7 +237,7 @@
         </div>
     </section>
 
-    <section class="py-24 px-4 relative">
+    <section class="py-16 md:py-20 px-4 relative">
         <div class="absolute inset-0 z-[-1]">
             <!-- キャンドルの光 -->
             <img src="https://images.unsplash.com/photo-1602928321679-560bb453f190?q=80&w=1600&auto=format&fit=crop" alt="キャンドル" class="w-full h-full object-cover opacity-10">
@@ -199,12 +245,12 @@
         </div>
 
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 reveal">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-12 md:mb-16 reveal">
                 <span class="text-gold text-sm block mb-2 tracking-widest font-sans">REASON</span>
                 複雑愛の解決に「電話占い」が選ばれる理由
             </h2>
             
-            <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="grid md:grid-cols-2 gap-8 mb-10 md:mb-12">
                 <div class="glass-card p-8 rounded-lg border-t-2 border-t-gold reveal delay-100">
                     <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-gold-light">
                         <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
@@ -239,9 +285,19 @@
         </div>
     </section>
 
-    <section class="py-24 px-4 relative">
+    <section class="py-16 md:py-20 px-4 relative">
         <div class="max-w-5xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 reveal">
+            <!-- ファーストビューから移動してきたボタン -->
+            <div class="text-center mb-16 md:mb-24 reveal">
+                <div class="animate-float inline-block w-full md:w-auto">
+                    <a href="https://t.afi-b.com/visit.php?a=J8084z-F270706Y&p=D974192F" target="_blank" rel="noopener noreferrer" class="btn-cta inline-flex flex-col items-center justify-center px-8 py-5 rounded-lg w-full md:w-auto shadow-2xl group">
+                        <span class="text-xs md:text-sm font-bold mb-1 tracking-wider opacity-90 font-sans">＼ 初回10分無料 ／</span>
+                        <span class="text-lg md:text-xl font-bold tracking-wide font-serif">無料登録してお試し相談してみる</span>
+                    </a>
+                </div>
+            </div>
+
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-12 md:mb-16 reveal">
                 <span class="text-gold text-sm block mb-2 tracking-widest font-sans">STRENGTHS</span>
                 本占いが選ばれる3つの理由
             </h2>
@@ -266,7 +322,7 @@
         </div>
     </section>
 
-    <section id="cta-section" class="py-24 px-4 relative">
+    <section id="cta-section" class="py-16 md:py-20 px-4 relative">
         <div class="absolute inset-0 z-[-1]">
             <div class="absolute inset-0 bg-midnight-surface opacity-50"></div>
             <!-- 背景に微かな光 -->
@@ -278,7 +334,7 @@
                 <span class="text-gold text-sm block mb-2 tracking-widest font-sans">CHOOSE YOUR PATH</span>
                 あなたの悩みに合わせた専用窓口
             </h2>
-            <p class="text-center text-gray-300 mb-12 reveal">専門性の高い鑑定師が、あなたの状況に合わせて待機しています。<br>どちらもご利用いただく方がほとんどです。</p>
+            <p class="text-center text-gray-300 mb-10 md:mb-12 reveal">専門性の高い鑑定師が、あなたの状況に合わせて待機しています。<br>どちらもご利用いただく方がほとんどです。</p>
 
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="glass-card p-8 md:p-10 rounded-xl text-center reveal delay-100 hover:-translate-y-2 transition-transform duration-300 border-gold/30 flex flex-col">
@@ -304,9 +360,9 @@
         </div>
     </section>
 
-    <section class="py-24 px-4 relative">
+    <section class="py-16 md:py-20 px-4 relative">
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 reveal">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-12 md:mb-16 reveal">
                 <span class="text-gold text-sm block mb-2 tracking-widest font-sans">VOICES</span>
                 奇跡を起こしたご利用者様の声
             </h2>
@@ -343,10 +399,10 @@
         </div>
     </section>
 
-    <section class="py-24 px-4 relative">
+    <section class="py-16 md:py-20 px-4 relative">
         <div class="absolute inset-0 z-[-1] bg-midnight-surface/30"></div>
         <div class="max-w-3xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 reveal">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-12 md:mb-16 reveal">
                 <span class="text-gold text-sm block mb-2 tracking-widest font-sans">FAQ</span>
                 よくあるご質問
             </h2>
@@ -396,7 +452,7 @@
         </div>
     </section>
 
-    <section class="py-32 px-4 relative overflow-hidden border-t border-gold/10">
+    <section class="py-20 md:py-28 px-4 relative overflow-hidden border-t border-gold/10">
         <div class="absolute inset-0 z-[-1]">
             <!-- 星空の画像 -->
             <img src="https://images.unsplash.com/photo-1465101162946-4377e57745c3?q=80&w=1600&auto=format&fit=crop" alt="星空" class="w-full h-full object-cover opacity-30">
@@ -405,7 +461,7 @@
 
         <div class="max-w-3xl mx-auto text-center reveal">
             <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gradient leading-tight">あなたのその恋、<br class="block md:hidden">まだ諦める必要はありません。</h2>
-            <p class="text-lg md:text-xl text-gray-300 mb-12 leading-relaxed font-sans">
+            <p class="text-lg md:text-xl text-gray-300 mb-10 md:mb-12 leading-relaxed font-sans">
                 ひとりで悩む夜は、今日で終わりにしませんか。<br>
                 今すぐプロの力を借りて、望む未来を引き寄せましょう。
             </p>
